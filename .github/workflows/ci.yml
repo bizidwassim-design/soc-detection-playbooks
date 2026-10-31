@@ -19,11 +19,10 @@ jobs:
       - run: pip install sigma-cli pyyaml
       - name: Validate every rule with the official Sigma CLI
         run: sigma check rules/
-      - name: Convert a sample to a backend to prove the rules are consumable
+      - name: Convert every rule (including correlations) with the Splunk backend
         run: |
           sigma plugin install splunk
-          sigma convert -t splunk -p sysmon rules/ransomware/shadow_copy_deletion.yml
-          sigma convert -t splunk rules/credential_access/password_spray_failed_logons.yml
+          sigma convert -t splunk --without-pipeline rules/
       - name: Navigator layer must match the rule tags
         run: |
           python scripts/attack_layer.py
