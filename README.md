@@ -1,6 +1,6 @@
 # SOC Detection Rules & Playbooks
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE) [![CI](https://github.com/bizidwassim-design/soc-detection-playbooks/actions/workflows/ci.yml/badge.svg)](https://github.com/bizidwassim-design/soc-detection-playbooks/actions/workflows/ci.yml) [![No macros](https://img.shields.io/badge/office%20files-no%20macros-success)](SECURITY.md) [![Fictional data](https://img.shields.io/badge/sample%20data-fictional-informational)](SECURITY.md)
 
 A free, open-source starter pack for a security operations team: **Sigma detection rules** for the
 attacks that actually hit small and mid-sized organisations, paired with **investigation playbooks**
@@ -18,6 +18,9 @@ rules/          Sigma rules, one folder per use case
   cloud/
   lateral_movement/
   persistence/
+  discovery/
+  command_and_control/
+  exfiltration/
 playbooks/      Markdown playbooks: triage → containment → investigation → recovery → evidence
 docs/           MITRE ATT&CK mapping table and a ready-made Navigator layer
 scripts/        attack_layer.py — rebuilds docs/attack-layer.json from the rule tags
@@ -32,6 +35,7 @@ scripts/        attack_layer.py — rebuilds docs/attack-layer.json from the rul
 | Credential access | LSASS memory access · Password spraying | [credential-access.md](playbooks/credential-access.md) |
 | Cloud | Entra ID MFA removed / Conditional Access weakened · AWS CloudTrail logging stopped | [cloud-account-compromise.md](playbooks/cloud-account-compromise.md) |
 | Lateral movement & persistence | PsExec-style remote service · RDP fan-out · Scheduled task from temp path | [lateral-movement.md](playbooks/lateral-movement.md) |
+| Discovery, C2 & exfiltration | AD enumeration from a workstation · PowerShell download cradle / encoded command · rclone / MEGA transfer tool | [data-exfiltration.md](playbooks/data-exfiltration.md) |
 
 Full technique list: [docs/mitre-attack-mapping.md](docs/mitre-attack-mapping.md).
 Navigator layer: [docs/attack-layer.json](docs/attack-layer.json) (import at https://mitre-attack.github.io/attack-navigator/).
@@ -47,7 +51,8 @@ sigma plugin install splunk            # or: microsoft365defender, elasticsearch
 sigma convert -t splunk -p sysmon rules/ransomware/shadow_copy_deletion.yml
 ```
 
-Validate rules before committing:
+Validate rules before committing (the same check runs in CI on every push and pull request, together with a
+conversion to the Splunk backend and a freshness check of the Navigator layer):
 
 ```bash
 sigma check rules/
@@ -98,7 +103,7 @@ and no rule set is complete. The playbooks are guidance, not legal or regulatory
 
 ## 🇫🇷 Résumé
 
-Pack de démarrage open source pour un SOC : **règles de détection Sigma** (hameçonnage/BEC, rançongiciel, vol d'identifiants,
-nuage Entra ID/AWS, déplacement latéral, persistance) et **playbooks d'investigation** en Markdown (triage, confinement,
+Pack de démarrage open source pour un SOC : **14 règles de détection Sigma** (hameçonnage/BEC, rançongiciel, vol d'identifiants,
+nuage Entra ID/AWS, déplacement latéral, persistance, reconnaissance, C2, exfiltration) validées en intégration continue et **playbooks d'investigation** en Markdown (triage, confinement,
 investigation, rétablissement, preuves), le tout cartographié sur **MITRE ATT&CK** avec une couche Navigator prête à importer.
 Convertissez les règles vers votre SIEM avec `sigma-cli`. Remplacez les valeurs d'exemple et ajustez les seuils avant déploiement. Licence MIT.

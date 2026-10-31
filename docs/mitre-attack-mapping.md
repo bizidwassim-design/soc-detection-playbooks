@@ -17,21 +17,29 @@ Mapping of every rule to ATT&CK (Enterprise matrix, **v20 identifiers** — the 
 | `lateral_movement/psexec_remote_service_creation.yml` | Lateral Movement, Execution | T1021.002, T1569.002 | lateral-movement |
 | `lateral_movement/rdp_from_workstation_to_many_hosts.yml` | Lateral Movement | T1021.001 | lateral-movement |
 | `persistence/scheduled_task_from_temp_path.yml` | Persistence | T1053.005 | lateral-movement |
+| `discovery/ad_enumeration_from_workstation.yml` | Discovery | T1087.002, T1482, T1018 | data-exfiltration |
+| `command_and_control/powershell_download_cradle.yml` | Command and Control, Execution | T1105, T1059.001 | data-exfiltration |
+| `exfiltration/cloud_sync_tool_execution.yml` | Exfiltration | T1567.002 | data-exfiltration |
 
 ## Coverage by tactic
 
 | Tactic | Techniques covered |
 |--------|--------------------|
 | Initial Access | T1566.001 |
-| Execution | T1204.002, T1059, T1569.002 |
+| Execution | T1204.002, T1059, T1059.001, T1569.002 |
 | Persistence | T1098.002, T1556.006, T1053.005 |
 | Defense Impairment | T1685, T1685.002 |
 | Credential Access | T1003.001, T1110.003 |
+| Discovery | T1087.002, T1482, T1018 |
 | Lateral Movement | T1021.001, T1021.002 |
 | Collection | T1114.003 |
+| Command and Control | T1105 |
+| Exfiltration | T1567.002 |
 | Impact | T1486, T1490 |
 
-Not yet covered (good first contributions): Discovery (T1087, T1018), Command and Control (T1071, T1572), Exfiltration (T1567, T1048).
+Every ATT&CK tactic in a typical ransomware kill chain now has at least one rule. Not yet covered (good first
+contributions): Privilege Escalation (T1068, T1548), Command and Control over web protocols / tunnelling (T1071.001, T1572),
+exfiltration over alternative protocols (T1048), Linux and macOS log sources.
 
 ## Threshold rules are Sigma correlation rules
 

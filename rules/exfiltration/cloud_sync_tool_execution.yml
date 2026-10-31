@@ -1,0 +1,44 @@
+title: Cloud Sync or Transfer Tool Executed (rclone, MEGA)
+id: 1a7d4e93-6c2b-4f58-a0e3-8b5c9d2f7e16
+status: experimental
+description: |
+  Detects execution of command-line cloud transfer tools favoured by ransomware affiliates for
+  bulk data theft before encryption — rclone (often renamed) and MEGA clients. Matches on the
+  original file name and on tell-tale command-line arguments so renaming the binary does not help.
+references:
+  - https://attack.mitre.org/techniques/T1567/002/
+author: soc-detection-playbooks contributors
+date: 2026-10-31
+tags:
+  - attack.exfiltration
+  - attack.t1567.002
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection_name:
+    - OriginalFileName:
+        - 'rclone.exe'
+        - 'MEGAclient.exe'
+        - 'MEGAcmdServer.exe'
+    - Image|endswith:
+        - '\rclone.exe'
+        - '\megasync.exe'
+        - '\MEGAcmd.exe'
+  selection_args:
+    CommandLine|contains|all:
+      - ' copy '
+      - '--config'
+    CommandLine|contains:
+      - 'mega'
+      - 'sftp'
+      - 'b2:'
+      - 's3:'
+      - '--transfers'
+      - '--multi-thread-streams'
+  filter_backup:
+    User|contains: 'svc-backup'   # replace with your sanctioned backup / sync service accounts
+  condition: 1 of selection_* and not filter_backup
+falsepositives:
+  - IT teams using rclone for sanctioned migrations or backups (allow-list the account and source host)
+level: high

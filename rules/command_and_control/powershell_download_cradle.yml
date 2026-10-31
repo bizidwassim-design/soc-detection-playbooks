@@ -1,0 +1,47 @@
+title: PowerShell Download Cradle or Encoded Command
+id: 8f3c6a25-9d1e-4b7a-8c42-5e0f7d9a3b61
+status: stable
+description: |
+  Detects PowerShell being used to fetch and execute remote content, or launched with an encoded
+  command — the standard second stage after a malicious document or link, used to pull a payload
+  from the attacker's infrastructure.
+references:
+  - https://attack.mitre.org/techniques/T1105/
+  - https://attack.mitre.org/techniques/T1059/001/
+author: soc-detection-playbooks contributors
+date: 2026-10-31
+tags:
+  - attack.command-and-control
+  - attack.execution
+  - attack.t1105
+  - attack.t1059.001
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection_img:
+    Image|endswith:
+      - '\powershell.exe'
+      - '\pwsh.exe'
+  selection_download:
+    CommandLine|contains:
+      - 'Net.WebClient'
+      - 'DownloadString('
+      - 'DownloadFile('
+      - 'Invoke-WebRequest'
+      - 'Start-BitsTransfer'
+      - 'IEX ('
+      - 'iex('
+      - 'Invoke-Expression'
+      - 'FromBase64String('
+  selection_encoded:
+    CommandLine|re: '(?i)\s-(e|ec|en|enc|enco|encod|encode|encoded|encodedc|encodedco|encodedcom|encodedcomm|encodedcomma|encodedcomman|encodedcommand)\s+[A-Za-z0-9+/=]{40,}'
+  filter_known:
+    ParentImage|endswith:
+      - '\ConfigurationManager\CcmExec.exe'   # replace with your management agents
+      - '\gc_worker.exe'
+  condition: selection_img and 1 of selection_download or selection_encoded and not filter_known
+falsepositives:
+  - Software deployment, configuration-management and monitoring agents that use encoded PowerShell (allow-list the parent process)
+  - Administrators scripting downloads from internal repositories
+level: high

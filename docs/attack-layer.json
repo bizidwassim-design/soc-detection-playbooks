@@ -15,6 +15,12 @@
       "enabled": true
     },
     {
+      "techniqueID": "T1018",
+      "score": 1,
+      "comment": "rules/discovery/ad_enumeration_from_workstation.yml",
+      "enabled": true
+    },
+    {
       "techniqueID": "T1021.001",
       "score": 1,
       "comment": "rules/lateral_movement/rdp_from_workstation_to_many_hosts.yml",
@@ -39,9 +45,27 @@
       "enabled": true
     },
     {
+      "techniqueID": "T1059.001",
+      "score": 1,
+      "comment": "rules/command_and_control/powershell_download_cradle.yml",
+      "enabled": true
+    },
+    {
+      "techniqueID": "T1087.002",
+      "score": 1,
+      "comment": "rules/discovery/ad_enumeration_from_workstation.yml",
+      "enabled": true
+    },
+    {
       "techniqueID": "T1098.002",
       "score": 1,
       "comment": "rules/phishing/m365_inbox_rule_forwarding_external.yml",
+      "enabled": true
+    },
+    {
+      "techniqueID": "T1105",
+      "score": 1,
+      "comment": "rules/command_and_control/powershell_download_cradle.yml",
       "enabled": true
     },
     {
@@ -60,6 +84,12 @@
       "techniqueID": "T1204.002",
       "score": 1,
       "comment": "rules/phishing/office_app_spawns_shell.yml",
+      "enabled": true
+    },
+    {
+      "techniqueID": "T1482",
+      "score": 1,
+      "comment": "rules/discovery/ad_enumeration_from_workstation.yml",
       "enabled": true
     },
     {
@@ -84,6 +114,12 @@
       "techniqueID": "T1566.001",
       "score": 1,
       "comment": "rules/phishing/office_app_spawns_shell.yml",
+      "enabled": true
+    },
+    {
+      "techniqueID": "T1567.002",
+      "score": 1,
+      "comment": "rules/exfiltration/cloud_sync_tool_execution.yml",
       "enabled": true
     },
     {

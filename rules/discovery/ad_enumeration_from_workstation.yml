@@ -1,0 +1,52 @@
+title: Active Directory Enumeration Commands From a Workstation
+id: 5e2b8c71-4a9d-4f36-b7e1-9c0d3a6f8b24
+status: experimental
+description: |
+  Detects built-in Windows tools being used to enumerate domain users, privileged groups, domain
+  controllers or trusts. Attackers run these within minutes of landing on a host to plan privilege
+  escalation and lateral movement; ordinary users almost never do.
+references:
+  - https://attack.mitre.org/techniques/T1087/002/
+  - https://attack.mitre.org/techniques/T1482/
+  - https://attack.mitre.org/techniques/T1018/
+author: soc-detection-playbooks contributors
+date: 2026-10-31
+tags:
+  - attack.discovery
+  - attack.t1087.002
+  - attack.t1482
+  - attack.t1018
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection_net:
+    Image|endswith:
+      - '\net.exe'
+      - '\net1.exe'
+    CommandLine|contains:
+      - ' group "domain admins"'
+      - ' group "enterprise admins"'
+      - ' group "domain controllers"'
+      - ' user /domain'
+      - ' group /domain'
+      - ' localgroup administrators'
+  selection_nltest:
+    Image|endswith: '\nltest.exe'
+    CommandLine|contains:
+      - '/dclist'
+      - '/domain_trusts'
+      - '/trusted_domains'
+  selection_dsquery:
+    Image|endswith: '\dsquery.exe'
+    CommandLine|contains:
+      - ' user'
+      - ' group'
+      - ' computer'
+  filter_admin_hosts:
+    ComputerName|startswith: 'ADM-'   # replace with your admin-workstation naming convention
+  condition: 1 of selection_* and not filter_admin_hosts
+falsepositives:
+  - Administrators and help-desk staff troubleshooting from standard workstations (move them to admin hosts, or allow-list)
+  - Inventory or compliance scripts (allow-list the service account)
+level: medium
