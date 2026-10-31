@@ -1,0 +1,47 @@
+title: Volume Shadow Copy Deletion
+id: 6b1c8e2d-4f70-4a3b-8c15-9e2d7a0f3b64
+status: stable
+description: |
+  Detects deletion of Volume Shadow Copies or disabling of Windows recovery features.
+  Ransomware operators almost always do this immediately before encryption to prevent
+  easy restoration. Treat as a critical, time-sensitive alert.
+references:
+  - https://attack.mitre.org/techniques/T1490/
+author: soc-detection-playbooks contributors
+date: 2026-10-31
+tags:
+  - attack.impact
+  - attack.t1490
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection_vssadmin:
+    Image|endswith: '\vssadmin.exe'
+    CommandLine|contains|all:
+      - 'delete'
+      - 'shadows'
+  selection_wmic:
+    Image|endswith: '\wmic.exe'
+    CommandLine|contains|all:
+      - 'shadowcopy'
+      - 'delete'
+  selection_bcdedit:
+    Image|endswith: '\bcdedit.exe'
+    CommandLine|contains:
+      - 'recoveryenabled no'
+      - 'bootstatuspolicy ignoreallfailures'
+  selection_wbadmin:
+    Image|endswith: '\wbadmin.exe'
+    CommandLine|contains: 'delete catalog'
+  selection_ps:
+    Image|endswith:
+      - '\powershell.exe'
+      - '\pwsh.exe'
+    CommandLine|contains|all:
+      - 'Win32_ShadowCopy'
+      - 'Delete'
+  condition: 1 of selection_*
+falsepositives:
+  - Backup software or storage administrators cleaning up shadow copies (should be rare and from known accounts/hosts)
+level: critical

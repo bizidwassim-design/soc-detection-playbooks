@@ -1,0 +1,40 @@
+title: Remote Service Creation (PsExec-style Lateral Movement)
+id: 7f3e9b1c-8a54-4d26-b7c0-2e6a4d9f5c81
+status: stable
+description: |
+  Detects installation of a service whose binary lives in a temporary or ADMIN$ share path,
+  or whose name matches PsExec and its clones. Attackers use this to execute commands on
+  remote hosts with stolen credentials.
+references:
+  - https://attack.mitre.org/techniques/T1021/002/
+  - https://attack.mitre.org/techniques/T1569/002/
+author: soc-detection-playbooks contributors
+date: 2026-10-31
+tags:
+  - attack.lateral-movement
+  - attack.t1021.002
+  - attack.execution
+  - attack.t1569.002
+logsource:
+  product: windows
+  service: system
+detection:
+  selection_event:
+    Provider_Name: 'Service Control Manager'
+    EventID: 7045
+  selection_name:
+    ServiceName|contains:
+      - 'PSEXESVC'
+      - 'PAExec'
+      - 'csexecsvc'
+      - 'RemComSvc'
+  selection_path:
+    ImagePath|contains:
+      - '\ADMIN$\'
+      - '\Windows\Temp\'
+      - '\AppData\Local\Temp\'
+      - '\Users\Public\'
+  condition: selection_event and 1 of selection_name or selection_event and 1 of selection_path
+falsepositives:
+  - Administrators legitimately using PsExec or deployment tools (allow-list source hosts and accounts)
+level: high

@@ -1,0 +1,122 @@
+{
+  "name": "soc-detection-playbooks coverage",
+  "versions": {
+    "attack": "20",
+    "navigator": "5.1.0",
+    "layer": "4.5"
+  },
+  "domain": "enterprise-attack",
+  "description": "Techniques covered by the Sigma rules in this repository.",
+  "techniques": [
+    {
+      "techniqueID": "T1003.001",
+      "score": 1,
+      "comment": "rules/credential_access/lsass_memory_access.yml",
+      "enabled": true
+    },
+    {
+      "techniqueID": "T1021.001",
+      "score": 1,
+      "comment": "rules/lateral_movement/rdp_from_workstation_to_many_hosts.yml",
+      "enabled": true
+    },
+    {
+      "techniqueID": "T1021.002",
+      "score": 1,
+      "comment": "rules/lateral_movement/psexec_remote_service_creation.yml",
+      "enabled": true
+    },
+    {
+      "techniqueID": "T1053.005",
+      "score": 1,
+      "comment": "rules/persistence/scheduled_task_from_temp_path.yml",
+      "enabled": true
+    },
+    {
+      "techniqueID": "T1059",
+      "score": 1,
+      "comment": "rules/phishing/office_app_spawns_shell.yml",
+      "enabled": true
+    },
+    {
+      "techniqueID": "T1098.002",
+      "score": 1,
+      "comment": "rules/phishing/m365_inbox_rule_forwarding_external.yml",
+      "enabled": true
+    },
+    {
+      "techniqueID": "T1110.003",
+      "score": 1,
+      "comment": "rules/credential_access/password_spray_failed_logons.yml",
+      "enabled": true
+    },
+    {
+      "techniqueID": "T1114.003",
+      "score": 1,
+      "comment": "rules/phishing/m365_inbox_rule_forwarding_external.yml",
+      "enabled": true
+    },
+    {
+      "techniqueID": "T1204.002",
+      "score": 1,
+      "comment": "rules/phishing/office_app_spawns_shell.yml",
+      "enabled": true
+    },
+    {
+      "techniqueID": "T1486",
+      "score": 1,
+      "comment": "rules/ransomware/mass_file_rename_extension.yml",
+      "enabled": true
+    },
+    {
+      "techniqueID": "T1490",
+      "score": 1,
+      "comment": "rules/ransomware/shadow_copy_deletion.yml",
+      "enabled": true
+    },
+    {
+      "techniqueID": "T1556.006",
+      "score": 1,
+      "comment": "rules/cloud/entra_mfa_disabled_or_removed.yml",
+      "enabled": true
+    },
+    {
+      "techniqueID": "T1566.001",
+      "score": 1,
+      "comment": "rules/phishing/office_app_spawns_shell.yml",
+      "enabled": true
+    },
+    {
+      "techniqueID": "T1569.002",
+      "score": 1,
+      "comment": "rules/lateral_movement/psexec_remote_service_creation.yml",
+      "enabled": true
+    },
+    {
+      "techniqueID": "T1685",
+      "score": 1,
+      "comment": "rules/cloud/entra_mfa_disabled_or_removed.yml",
+      "enabled": true
+    },
+    {
+      "techniqueID": "T1685.002",
+      "score": 1,
+      "comment": "rules/cloud/aws_cloudtrail_logging_disabled.yml",
+      "enabled": true
+    }
+  ],
+  "gradient": {
+    "colors": [
+      "#ffffff",
+      "#2F80ED"
+    ],
+    "minValue": 0,
+    "maxValue": 1
+  },
+  "legendItems": [
+    {
+      "label": "Rules covering the technique",
+      "color": "#2F80ED"
+    }
+  ]
+}

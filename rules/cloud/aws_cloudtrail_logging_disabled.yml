@@ -1,0 +1,33 @@
+title: AWS CloudTrail Logging Stopped or Trail Deleted
+id: 4d8b2f9a-3c15-47e6-8a9d-0b5e1c7f6a24
+status: stable
+description: |
+  Detects an API call that stops, deletes or reconfigures a CloudTrail trail, or disables
+  GuardDuty. Turning off audit logging is a common precursor to further malicious activity
+  in a compromised AWS account.
+references:
+  - https://attack.mitre.org/techniques/T1685/002/
+author: soc-detection-playbooks contributors
+date: 2026-10-31
+tags:
+  - attack.defense-impairment
+  - attack.t1685.002
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection:
+    eventSource:
+      - 'cloudtrail.amazonaws.com'
+      - 'guardduty.amazonaws.com'
+    eventName:
+      - 'StopLogging'
+      - 'DeleteTrail'
+      - 'UpdateTrail'
+      - 'PutEventSelectors'
+      - 'DeleteDetector'
+      - 'UpdateDetector'
+  condition: selection
+falsepositives:
+  - Infrastructure-as-code changes to logging configuration (correlate with a deployment pipeline identity)
+level: high

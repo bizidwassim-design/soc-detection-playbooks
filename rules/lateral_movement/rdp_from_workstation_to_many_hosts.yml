@@ -1,0 +1,57 @@
+title: Successful RDP Logon (Lateral Movement Base Rule)
+id: 7d3a9c52-1e84-4f6b-b2a7-5c8e0d4f9a13
+name: rdp_logon_success
+status: experimental
+description: |
+  Base rule matching a single successful interactive RDP logon (logon type 10), excluding known
+  remote-management service accounts. Feeds the fan-out correlation rule below.
+references:
+  - https://attack.mitre.org/techniques/T1021/001/
+author: soc-detection-playbooks contributors
+date: 2026-10-31
+tags:
+  - attack.lateral-movement
+  - attack.t1021.001
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    EventID: 4624
+    LogonType: 10
+  filter_known:
+    TargetUserName|contains:
+      - 'svc-rmm'          # replace with your remote-management service accounts
+      - 'svc-patch'
+  condition: selection and not filter_known
+falsepositives:
+  - Every normal RDP session — do not alert on this rule directly
+level: informational
+---
+title: One Account Opening RDP Sessions to Many Hosts
+id: b6d2e8f4-0c91-4a7e-95b3-8d1f6a3c2e57
+status: experimental
+description: |
+  Detects a single account successfully logging on over RDP to an unusual number of distinct
+  hosts in a short period. Human administrators rarely hop across many machines in minutes;
+  attackers and automated tooling do. Tune the threshold (5 hosts / 15 minutes) to your fleet.
+references:
+  - https://attack.mitre.org/techniques/T1021/001/
+author: soc-detection-playbooks contributors
+date: 2026-10-31
+tags:
+  - attack.lateral-movement
+  - attack.t1021.001
+correlation:
+  type: value_count
+  rules:
+    - rdp_logon_success
+  group-by:
+    - TargetUserName
+  timespan: 15m
+  condition:
+    gte: 5
+    field: Computer
+falsepositives:
+  - Administrators or remote-management tools performing legitimate fleet maintenance (allow-list)
+level: medium

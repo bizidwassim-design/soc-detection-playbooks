@@ -1,0 +1,35 @@
+title: Entra ID - MFA Method Removed or Conditional Access Policy Weakened
+id: 1b7d3a5f-9e62-4c08-b4a1-6f2e8c0d9a73
+status: experimental
+description: |
+  Detects removal of a user's MFA authentication method or modification/deletion of a
+  Conditional Access policy in Microsoft Entra ID. Attackers weaken MFA to keep access after
+  compromising an account or an administrator.
+references:
+  - https://attack.mitre.org/techniques/T1556/006/
+  - https://attack.mitre.org/techniques/T1685/
+author: soc-detection-playbooks contributors
+date: 2026-10-31
+tags:
+  - attack.defense-impairment
+  - attack.t1685
+  - attack.persistence
+  - attack.t1556.006
+logsource:
+  product: azure
+  service: auditlogs
+detection:
+  selection_mfa:
+    OperationName:
+      - 'User deleted security info'
+      - 'Admin deleted security info'
+      - 'Disable Strong Authentication'
+  selection_ca:
+    OperationName:
+      - 'Update conditional access policy'
+      - 'Delete conditional access policy'
+  condition: 1 of selection_*
+falsepositives:
+  - Help-desk resets for a user who lost a device (correlate with a ticket)
+  - Planned Conditional Access changes during a change window
+level: high

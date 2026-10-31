@@ -1,0 +1,46 @@
+title: Office Application Spawning a Command Shell
+id: 8d4e1f6b-2a93-4c77-b1e0-5f9a3d2c8e41
+status: stable
+description: |
+  Detects Microsoft Office applications spawning a command interpreter or scripting host.
+  This is the classic execution chain of a malicious attachment (macro, OLE object or
+  exploit) delivered by phishing.
+references:
+  - https://attack.mitre.org/techniques/T1566/001/
+  - https://attack.mitre.org/techniques/T1204/002/
+author: soc-detection-playbooks contributors
+date: 2026-10-31
+tags:
+  - attack.initial-access
+  - attack.t1566.001
+  - attack.execution
+  - attack.t1204.002
+  - attack.t1059
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection_parent:
+    ParentImage|endswith:
+      - '\WINWORD.EXE'
+      - '\EXCEL.EXE'
+      - '\POWERPNT.EXE'
+      - '\OUTLOOK.EXE'
+      - '\MSACCESS.EXE'
+      - '\ONENOTE.EXE'
+  selection_child:
+    Image|endswith:
+      - '\cmd.exe'
+      - '\powershell.exe'
+      - '\pwsh.exe'
+      - '\wscript.exe'
+      - '\cscript.exe'
+      - '\mshta.exe'
+      - '\rundll32.exe'
+      - '\regsvr32.exe'
+      - '\certutil.exe'
+      - '\bitsadmin.exe'
+  condition: selection_parent and selection_child
+falsepositives:
+  - Legitimate add-ins or document automation launching scripts (allow-list by hash or command line)
+level: high

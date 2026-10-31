@@ -1,0 +1,41 @@
+title: Suspicious Access to LSASS Process Memory
+id: c5e3b7a9-1d42-4f8e-a6b0-7c2d9e4f1a38
+status: stable
+description: |
+  Detects a process opening a handle to lsass.exe with memory-read rights from an unexpected
+  image. Credential-dumping tools (Mimikatz, ProcDump misuse, custom loaders) read LSASS memory
+  to harvest passwords, hashes and Kerberos tickets.
+references:
+  - https://attack.mitre.org/techniques/T1003/001/
+author: soc-detection-playbooks contributors
+date: 2026-10-31
+tags:
+  - attack.credential-access
+  - attack.t1003.001
+logsource:
+  category: process_access
+  product: windows
+detection:
+  selection:
+    TargetImage|endswith: '\lsass.exe'
+    GrantedAccess|contains:
+      - '0x1010'
+      - '0x1038'
+      - '0x1fffff'
+      - '0x40'
+      - '0x1410'
+  filter_system:
+    SourceImage|startswith:
+      - 'C:\Windows\System32\'
+      - 'C:\Windows\SysWOW64\'
+      - 'C:\Program Files\'
+      - 'C:\Program Files (x86)\'
+  filter_edr:
+    SourceImage|contains:
+      - '\MsMpEng.exe'
+      - '\csrss.exe'
+      - '\wininit.exe'
+  condition: selection and not 1 of filter_*
+falsepositives:
+  - Security products, debuggers and some monitoring agents (allow-list by signed image path)
+level: high

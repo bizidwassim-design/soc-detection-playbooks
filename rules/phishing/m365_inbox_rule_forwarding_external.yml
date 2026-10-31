@@ -1,0 +1,38 @@
+title: Microsoft 365 Inbox Rule Forwarding Mail Externally
+id: 3f2a9c4e-7b61-4d1a-9e58-2c0b7f6a1d10
+status: experimental
+description: |
+  Detects creation or modification of an Exchange Online inbox rule that forwards or redirects
+  messages to an external address. Attackers routinely create such rules after a business
+  email compromise (BEC) to silently copy a victim's mail and hide replies.
+references:
+  - https://attack.mitre.org/techniques/T1114/003/
+  - https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/detect-and-remediate-outlook-rules-forms-attack
+author: soc-detection-playbooks contributors
+date: 2026-10-31
+tags:
+  - attack.collection
+  - attack.t1114.003
+  - attack.persistence
+  - attack.t1098.002
+logsource:
+  product: m365
+  service: exchange
+detection:
+  selection_op:
+    Operation:
+      - 'New-InboxRule'
+      - 'Set-InboxRule'
+      - 'UpdateInboxRules'
+  selection_forward:
+    Parameters|contains:
+      - 'ForwardTo'
+      - 'ForwardAsAttachmentTo'
+      - 'RedirectTo'
+  filter_internal:
+    Parameters|contains: '@yourcompany.example'   # replace with your own domains
+  condition: selection_op and selection_forward and not filter_internal
+falsepositives:
+  - Users legitimately forwarding mail to a personal or partner mailbox (should be rare and policy-driven)
+  - Migration or mail-flow testing by administrators
+level: high

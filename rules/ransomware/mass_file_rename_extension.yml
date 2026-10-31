@@ -1,0 +1,65 @@
+title: File Written or Renamed With Unusual Extension (Ransomware Base Rule)
+id: 3c8e1f6a-9d24-4b7c-8e5a-2f1d7b9c4e60
+name: file_write_unusual_extension
+status: experimental
+description: |
+  Base rule matching a single file write/rename on an audited share whose new name carries an
+  uncommon or known-ransomware extension. Feeds the mass-rename correlation rule below.
+references:
+  - https://attack.mitre.org/techniques/T1486/
+author: soc-detection-playbooks contributors
+date: 2026-10-31
+tags:
+  - attack.impact
+  - attack.t1486
+logsource:
+  product: windows
+  service: security
+  definition: 'Requires object access auditing (Event ID 4663 / 4656) on the monitored shares'
+detection:
+  selection:
+    EventID: 4663
+    AccessMask|contains:
+      - '0x10000'   # DELETE (rename)
+      - '0x2'       # WriteData / AddFile
+    ObjectName|re: '\.(lock|crypt|enc|encrypted|locked|[a-z0-9]{6,8})$'
+  filter_known:
+    ObjectName|endswith:
+      - '.tmp'
+      - '.bak'
+      - '.docx'
+      - '.xlsx'
+      - '.pdf'
+      - '.zip'
+  condition: selection and not filter_known
+falsepositives:
+  - Any single file with an unusual extension — do not alert on this rule directly
+level: informational
+---
+title: Mass File Rename to Unusual Extension on File Share
+id: a2c7d9e1-5b38-4f06-9a1d-3e8c4b7f2a95
+status: experimental
+description: |
+  Detects a single account renaming or creating a large number of files with a new, uncommon
+  extension within a short window on a file server. This is the behavioural signature of
+  ransomware encrypting a share. Tune the threshold (200 files / 2 minutes) to your environment.
+references:
+  - https://attack.mitre.org/techniques/T1486/
+author: soc-detection-playbooks contributors
+date: 2026-10-31
+tags:
+  - attack.impact
+  - attack.t1486
+correlation:
+  type: value_count
+  rules:
+    - file_write_unusual_extension
+  group-by:
+    - SubjectUserName
+  timespan: 2m
+  condition:
+    gte: 200
+    field: ObjectName
+falsepositives:
+  - Bulk file conversions, archiving jobs or migrations run by service accounts (allow-list the account)
+level: critical
