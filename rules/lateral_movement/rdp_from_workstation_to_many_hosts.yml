@@ -7,7 +7,7 @@ description: |
   remote-management service accounts. Feeds the fan-out correlation rule below.
 references:
   - https://attack.mitre.org/techniques/T1021/001/
-author: soc-detection-playbooks contributors
+author: Wassim Bizid
 date: 2026-10-31
 tags:
   - attack.lateral-movement
@@ -37,7 +37,7 @@ description: |
   attackers and automated tooling do. Tune the threshold (5 hosts / 15 minutes) to your fleet.
 references:
   - https://attack.mitre.org/techniques/T1021/001/
-author: soc-detection-playbooks contributors
+author: Wassim Bizid
 date: 2026-10-31
 tags:
   - attack.lateral-movement

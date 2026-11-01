@@ -7,7 +7,7 @@ description: |
   uncommon or known-ransomware extension. Feeds the mass-rename correlation rule below.
 references:
   - https://attack.mitre.org/techniques/T1486/
-author: soc-detection-playbooks contributors
+author: Wassim Bizid
 date: 2026-10-31
 tags:
   - attack.impact
@@ -45,7 +45,7 @@ description: |
   ransomware encrypting a share. Tune the threshold (200 files / 2 minutes) to your environment.
 references:
   - https://attack.mitre.org/techniques/T1486/
-author: soc-detection-playbooks contributors
+author: Wassim Bizid
 date: 2026-10-31
 tags:
   - attack.impact

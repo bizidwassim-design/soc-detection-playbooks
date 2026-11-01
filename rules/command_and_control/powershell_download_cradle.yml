@@ -8,7 +8,7 @@ description: |
 references:
   - https://attack.mitre.org/techniques/T1105/
   - https://attack.mitre.org/techniques/T1059/001/
-author: soc-detection-playbooks contributors
+author: Wassim Bizid
 date: 2026-10-31
 tags:
   - attack.command-and-control

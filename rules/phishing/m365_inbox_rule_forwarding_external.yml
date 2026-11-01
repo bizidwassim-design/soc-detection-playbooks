@@ -8,7 +8,7 @@ description: |
 references:
   - https://attack.mitre.org/techniques/T1114/003/
   - https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/detect-and-remediate-outlook-rules-forms-attack
-author: soc-detection-playbooks contributors
+author: Wassim Bizid
 date: 2026-10-31
 tags:
   - attack.collection

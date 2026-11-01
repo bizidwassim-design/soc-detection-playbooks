@@ -6,7 +6,7 @@ description: |
   user-writable or temporary location. A common persistence technique after initial access.
 references:
   - https://attack.mitre.org/techniques/T1053/005/
-author: soc-detection-playbooks contributors
+author: Wassim Bizid
 date: 2026-10-31
 tags:
   - attack.persistence

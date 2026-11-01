@@ -9,7 +9,7 @@ references:
   - https://attack.mitre.org/techniques/T1087/002/
   - https://attack.mitre.org/techniques/T1482/
   - https://attack.mitre.org/techniques/T1018/
-author: soc-detection-playbooks contributors
+author: Wassim Bizid
 date: 2026-10-31
 tags:
   - attack.discovery

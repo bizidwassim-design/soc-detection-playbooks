@@ -8,7 +8,7 @@ description: |
 references:
   - https://attack.mitre.org/techniques/T1556/006/
   - https://attack.mitre.org/techniques/T1685/
-author: soc-detection-playbooks contributors
+author: Wassim Bizid
 date: 2026-10-31
 tags:
   - attack.defense-impairment

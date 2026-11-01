@@ -7,7 +7,7 @@ description: |
   original file name and on tell-tale command-line arguments so renaming the binary does not help.
 references:
   - https://attack.mitre.org/techniques/T1567/002/
-author: soc-detection-playbooks contributors
+author: Wassim Bizid
 date: 2026-10-31
 tags:
   - attack.exfiltration

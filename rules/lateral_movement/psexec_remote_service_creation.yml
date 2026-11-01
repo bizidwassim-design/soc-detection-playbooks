@@ -8,7 +8,7 @@ description: |
 references:
   - https://attack.mitre.org/techniques/T1021/002/
   - https://attack.mitre.org/techniques/T1569/002/
-author: soc-detection-playbooks contributors
+author: Wassim Bizid
 date: 2026-10-31
 tags:
   - attack.lateral-movement

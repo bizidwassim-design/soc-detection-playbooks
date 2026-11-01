@@ -7,7 +7,7 @@ description: |
   easy restoration. Treat as a critical, time-sensitive alert.
 references:
   - https://attack.mitre.org/techniques/T1490/
-author: soc-detection-playbooks contributors
+author: Wassim Bizid
 date: 2026-10-31
 tags:
   - attack.impact

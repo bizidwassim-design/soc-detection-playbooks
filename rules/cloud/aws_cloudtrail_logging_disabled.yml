@@ -7,7 +7,7 @@ description: |
   in a compromised AWS account.
 references:
   - https://attack.mitre.org/techniques/T1685/002/
-author: soc-detection-playbooks contributors
+author: Wassim Bizid
 date: 2026-10-31
 tags:
   - attack.defense-impairment
