@@ -43,7 +43,7 @@ Navigator layer: [docs/attack-layer.json](docs/attack-layer.json) (import at htt
 ## Using the rules
 
 Sigma is vendor-neutral. Convert a rule to your SIEM/EDR query language with
-[`sigma-cli`](https://github.com/SigmaHQ/sigma-cli) and the backend for your platform, for example:
+`sigma-cli` (install it with `pip install sigma-cli`) and the backend for your platform, for example:
 
 ```bash
 pip install sigma-cli
