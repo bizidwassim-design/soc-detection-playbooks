@@ -95,6 +95,13 @@ notes and translations are all welcome — see [CONTRIBUTING.md](CONTRIBUTING.md
 Detection content must be tested in your own environment. These rules will produce false positives until tuned,
 and no rule set is complete. The playbooks are guidance, not legal or regulatory advice.
 
+## AI assistance
+
+Built with Claude Code as a coding and writing assistant, which is why it appears as a co-author on some commits.
+**Editor and reviewer: Wassim Bizid**, who set the scope, the frameworks and the GRC approach, edited the content
+and decided what was published. Automated tests in CI check the published outputs. This is a maintainer review,
+not an independent one.
+
 ## License
 
 [MIT](LICENSE).
